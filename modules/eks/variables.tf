@@ -1,6 +1,6 @@
 variable "cluster-name" {
   type    = string
-  default = "mlflow-cluster"
+  default = "elaniin-names-cluster"
 }
 
 variable "private_subnets_eks_ids" {

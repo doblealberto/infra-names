@@ -6,9 +6,9 @@ resource "aws_subnet" "public_subnets" {
   vpc_id                  = aws_vpc.main_vpc.id
 
   tags = {
-    Name = "public_subnet_eks_${count.index}"
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+    "Name"                                      = "public-${element(var.availability_zones, count.index)}"
     "kubernetes.io/role/elb"                    = 1
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
   }
 }
 

@@ -2,31 +2,42 @@ locals {
   availability_zones = ["${var.aws_region}a", "${var.aws_region}b"]
 }
 
-module "vpc_networking" {
-  source = "./modules/vpc_networking"
+module "networking" {
+  source = "./modules/networking"
 
   availability_zones = local.availability_zones
 }
-module "eks_cluster" {
-  source = "./modules/eks_cluster"
 
-  private_subnets_eks_ids = module.vpc_networking.private_subnets_eks_ids
-  vpc_id                  = module.vpc_networking.vpc_id
-  public_subnets_ids      = module.vpc_networking.public_subnets_ids
+module "eks" {
+  source = "./modules/eks"
+
+  private_subnets_eks_ids = module.networking.private_subnets_eks_ids
+  vpc_id                  = module.networking.vpc_id
+  public_subnets_ids      = module.networking.public_subnets_ids
 
 }
 
 module "eks_worker_nodes" {
-  source = "./modules/eks_worker_nodes"
+  source = "./modules/eks-worker-nodes"
 
-  aws_eks_cluster_name    = module.eks_cluster.aws_eks_cluster_name
-  private_subnets_eks_ids = module.vpc_networking.private_subnets_eks_ids
+  aws_eks_cluster_name    = module.eks.aws_eks_cluster_name
+  private_subnets_eks_ids = module.networking.private_subnets_eks_ids
 }
 
 
 module "rds" {
-  source = "./modules/rds"
+  source = "./modules/database"
 
-  vpc_id               = module.vpc_networking.vpc_id
-  db_subnet_group_name = module.vpc_networking.aws_rds_subnet_group_id
+  vpc_id               = module.networking.vpc_id
+  db_subnet_group_name = module.networking.aws_rds_subnet_group_id
 }
+
+module "karpenter" {
+  source = "./modules/karpenter"
+  cluster_endpoint =
+  cluster_ca_certificate = 
+  cluster_id =
+}
+
+
+

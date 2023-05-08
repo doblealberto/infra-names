@@ -1,0 +1,21 @@
+controller:
+  ingressClassResource:
+    controllerValue: k8s.io/ingress-nginx
+    enabled: true
+    name: nginx
+  kind: DaemonSet
+  metrics:
+    serviceMonitor:
+      enabled: true
+    enabled: true
+    port: 10254
+    service:
+      annotations: {}
+      nodePort: 31254
+      servicePort: 10254
+      type: NodePort
+  service:
+    enableHttp: true
+    enableHttps: false
+    nodePorts:
+      http: 32080

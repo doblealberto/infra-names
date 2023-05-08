@@ -6,9 +6,9 @@ resource "aws_subnet" "private_subnets_eks" {
   vpc_id                  = aws_vpc.main_vpc.id
 
   tags = tomap({
-    "Name"                                      = "private_subnet_eks_${count.index}",
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
-    "kubernetes.io/role/internal-elb"           = 1
+    "Name"                                      = "private-${element(var.availability_zones, count.index)}"
+    "kubernetes.io/role/internal-elb"           = "1"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
   })
 }
 

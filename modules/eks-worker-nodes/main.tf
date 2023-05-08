@@ -13,12 +13,26 @@ resource "aws_eks_node_group" "eks_node_group" {
     min_size     = var.min_size
   }
 
+  update_config {
+    max_unavailable = 1
+  }
+
+  labels = {
+    role = "general"
+  }
+
   depends_on = [
     aws_iam_role_policy_attachment.eks_node_AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.eks_node_AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.eks_node_AmazonEC2ContainerRegistryReadOnly,
     aws_iam_role_policy_attachment.eks_node_s3_AmazonS3FullAccess,
   ]
+
+  # Allow external changes without Terraform plan difference
+  lifecycle {
+    ignore_changes = [scaling_config[0].desired_size]
+  }
+  
 }
 
 resource "aws_iam_role" "eks_node_group_role" {
