@@ -19,20 +19,20 @@ variable "instance_types" {
 
 variable "capacity_type" {
   type    = string
-  default = "SPOT"
+  default = "ON_DEMAND"
 }
 
 variable "desired_size" {
   type    = number
-  default = 3
+  default = 1
 }
 
 variable "max_size" {
   type    = number
-  default = 7
+  default = 10
 }
 
 variable "min_size" {
   type    = number
-  default = 2
+  default = 0
 }

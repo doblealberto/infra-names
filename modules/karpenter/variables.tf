@@ -28,3 +28,4 @@ variable "worker-nodes-role-name" {
 variable "cluster_ca_certificate" {
   type = string
 }
+

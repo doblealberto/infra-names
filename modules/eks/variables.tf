@@ -1,6 +1,6 @@
 variable "cluster-name" {
   type    = string
-  default = "elaniin-names-cluster"
+  default = "elaniin-names-app"
 }
 
 variable "private_subnets_eks_ids" {

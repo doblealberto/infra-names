@@ -1,22 +1,22 @@
 provider "kubernetes" {
-  host                   = var.cluster_endpoint
+  alias  = "passed"
+  host   = var.cluster_endpoint
   cluster_ca_certificate = base64decode(var.cluster_ca_certificate)
-  token                  = var.token
-  load_config_file       = false
-  version                = "~> 2.0"
+  token  = var.token
+  load_config_file = false
 }
-
 
 provider "helm" {
   kubernetes {
-    host                   = var.cluster_endpoint
+    host   = var.cluster_endpoint
     cluster_ca_certificate = base64decode(var.cluster_ca_certificate)
-    token                  = var.token
+    token  = var.token
   }
 }
 
 
 resource "helm_release" "karpenter" {
+  provider = kubernetes.passed
   namespace        = "karpenter"
   create_namespace = true
 

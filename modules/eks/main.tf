@@ -60,6 +60,6 @@ resource "aws_security_group" "eks_cluster_sg" {
 
   tags = {
     Name = "eks_cluster_sg",
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared"
+    "kubernetes.io/cluster/${var.cluster-name}" = "owned"
   }
 }
