@@ -26,7 +26,7 @@ variable "public_subnets_cidr" {
   default     = ["10.0.5.0/24", "10.0.6.0/24"]
 }
 
-variable "cluster-name" {
+variable "cluster_name" {
   type    = string
   default = "elaniin-names-app"
 }

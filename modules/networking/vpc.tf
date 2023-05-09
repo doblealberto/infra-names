@@ -3,7 +3,7 @@ resource "aws_vpc" "main_vpc" {
 
   tags = tomap({
     "Name"                                      = "main_vpc",
-    "kubernetes.io/cluster/${var.cluster-name}" = "shared",
+    "kubernetes.io/cluster/${var.cluster_name}" = "shared",
   })
 }
 

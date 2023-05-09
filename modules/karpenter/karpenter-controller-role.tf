@@ -5,12 +5,12 @@ data "aws_iam_policy_document" "karpenter_controller_assume_role_policy" {
 
     condition {
       test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
+      variable = "${replace(var.oidc_provider_url, "https://", "")}:sub"
       values   = ["system:serviceaccount:karpenter:karpenter"]
     }
 
     principals {
-      identifiers = [aws_iam_openid_connect_provider.eks.arn]
+      identifiers = [var.oidc_provider_arn]
       type        = "Federated"
     }
   }
@@ -22,7 +22,7 @@ resource "aws_iam_role" "karpenter_controller" {
 }
 
 resource "aws_iam_policy" "karpenter_controller" {
-  policy = file("../../policies/controller-trust-policy.json")
+  policy = file("policies/controller_trust_policy.json")
   name   = "KarpenterController"
 }
 
@@ -33,5 +33,5 @@ resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller_attach" 
 
 resource "aws_iam_instance_profile" "karpenter" {
   name = "KarpenterNodeInstanceProfile"
-  role = aws_iam_role.nodes.name
+  role = var.worker-nodes-role-name
 }

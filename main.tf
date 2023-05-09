@@ -4,7 +4,6 @@ locals {
 
 module "networking" {
   source = "./modules/networking"
-
   availability_zones = local.availability_zones
 }
 
@@ -34,9 +33,22 @@ module "rds" {
 
 module "karpenter" {
   source = "./modules/karpenter"
-  cluster_endpoint =
-  cluster_ca_certificate = 
-  cluster_id =
+
+  worker-nodes-role-name = module.eks_worker_nodes.worker-nodes-role-name 
+
+  oidc_provider_url = module.eks.oidc_provider_url
+  oidc_provider_arn = module.eks.oidc_provider_arn
+  cluster_id            = module.eks.cluster_id
+  cluster_endpoint      = module.eks.cluster_endpoint
+  token                 = module.eks.token
+  cluster_ca_certificate = module.eks.cluster_ca_certificate
+  # helm_provider = {
+  #   cluster_endpoint      = module.eks.cluster_endpoint
+  #   cluster_ca_certificate = module.eks.cluster_ca_certificate
+  #   token                 = module.eks.token
+  #   config_context        = module.eks.config_context
+  # }
+ 
 }
 
 
